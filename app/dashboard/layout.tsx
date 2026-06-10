@@ -30,7 +30,7 @@ export default function DashboardLayout({
       />
 
       {/* Main content area */}
-      <div className="flex flex-col flex-1 min-w-0 lg:ml-[200px]">
+      <div className="flex flex-col flex-1 min-w-0 lg:ml-50">
         <Topbar
           onMenuClick={() => setSidebarOpen(true)}
           onFindPeopleClick={() => setFindPeopleOpen(true)}

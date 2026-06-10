@@ -7,26 +7,34 @@ import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard,
+  Book,
+  Blend,
   BookOpen,
-  Zap,
-  FileText,
   Settings,
   ChevronsUpDown,
   ChevronUp,
   ChevronDown,
+  Rocket,
   X,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const navHome = [
+const navHomeLinks = [
   { label: 'My Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { label: 'Playbooks', href: '/playbooks', icon: BookOpen, badge: '🚀' },
-  { label: 'Integrations', href: '/integrations', icon: Zap },
 ]
 
-const navOther = [
-  { label: 'Documentation', href: '/documentation', icon: FileText },
-  { label: 'Settings', href: '/settings', icon: Settings },
+const navHomeButtons = [
+  {
+    label: 'Playbooks',
+    icon: Book,
+    badge: <Rocket size={13} style={{ color: '#d6b52f', fill: '#d6b52f' }} />,
+  },
+  { label: 'Integrations', icon: Blend },
+]
+
+const navOtherButtons = [
+  { label: 'Documentation', icon: BookOpen },
+  { label: 'Settings', icon: Settings },
 ]
 
 interface SidebarProps {
@@ -36,18 +44,15 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname()
-  const [supportCollapsed, setSupportCollapsed] = useState(false)
 
   return (
     <>
+      {/* Desktop sidebar */}
       <aside className="hidden lg:flex fixed left-0 top-0 h-full w-50 flex-col bg-white border-r border-border z-10">
-        <SidebarContent
-          pathname={pathname}
-          supportCollapsed={supportCollapsed}
-          setSupportCollapsed={setSupportCollapsed}
-        />
+        <SidebarContent pathname={pathname} />
       </aside>
 
+      {/* Mobile sidebar */}
       <AnimatePresence>
         {isOpen && (
           <motion.aside
@@ -63,11 +68,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             >
               <X size={16} />
             </button>
-            <SidebarContent
-              pathname={pathname}
-              supportCollapsed={supportCollapsed}
-              setSupportCollapsed={setSupportCollapsed}
-            />
+            <SidebarContent pathname={pathname} />
           </motion.aside>
         )}
       </AnimatePresence>
@@ -75,15 +76,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   )
 }
 
-function SidebarContent({
-  pathname,
-  supportCollapsed,
-  setSupportCollapsed,
-}: {
-  pathname: string
-  supportCollapsed: boolean
-  setSupportCollapsed: (v: boolean) => void
-}) {
+function SidebarContent({ pathname }: { pathname: string }) {
+  const [supportCollapsed, setSupportCollapsed] = useState(false)
+  const [activeButton, setActiveButton] = useState<string | null>(null)
+
   return (
     <div className="flex flex-col h-full">
       {/* Logo */}
@@ -99,8 +95,8 @@ function SidebarContent({
       </div>
 
       <div className="px-3 py-2 border-b border-border">
-        <button className="flex items-center gap-2 w-full px-2 py-1.5 rounded-md hover:bg-muted transition-colors group">
-          <div className="w-6 h-6 rounded-full bg-muted-foreground/20 flex items-center justify-center overflow-hidden shrink-0">
+        <button className="flex items-center gap-2 w-full px-2 py-1.5 rounded-md hover:bg-muted transition-colors">
+          <div className="w-6 h-6 rounded-full overflow-hidden shrink-0">
             <img
               src="https://api.dicebear.com/7.x/avataaars/svg?seed=GTMSpaces"
               alt="workspace"
@@ -120,43 +116,7 @@ function SidebarContent({
             Home
           </p>
           <ul className="space-y-0.5">
-            {navHome.map((item) => {
-              const isActive = pathname === item.href
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      'flex items-center gap-2.5 px-2 py-1.5 rounded-md text-sm transition-colors relative group',
-                      isActive
-                        ? 'bg-blue-50 text-blue-600 font-medium'
-                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                    )}
-                  >
-                    {isActive && (
-                      <span className="absolute left-0 top-1 bottom-1 w-0.5 bg-blue-600 rounded-full" />
-                    )}
-                    <item.icon size={16} className="shrink-0" />
-                    <span className="flex-1 truncate">{item.label}</span>
-                    {item.label === 'My Dashboard' && isActive && (
-                      <ChevronDown size={14} className="text-blue-400" />
-                    )}
-                    {item.badge && (
-                      <span className="text-base leading-none">{item.badge}</span>
-                    )}
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-
-        <div>
-          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider px-2 mb-1">
-            Other
-          </p>
-          <ul className="space-y-0.5">
-            {navOther.map((item) => {
+            {navHomeLinks.map((item) => {
               const isActive = pathname === item.href
               return (
                 <li key={item.href}>
@@ -173,8 +133,69 @@ function SidebarContent({
                       <span className="absolute left-0 top-1 bottom-1 w-0.5 bg-blue-600 rounded-full" />
                     )}
                     <item.icon size={16} className="shrink-0" />
-                    <span className="truncate">{item.label}</span>
+                    <span className="flex-1 truncate">{item.label}</span>
+                    {isActive && (
+                      <ChevronDown size={14} className="text-blue-400" />
+                    )}
                   </Link>
+                </li>
+              )
+            })}
+
+            {navHomeButtons.map((item) => {
+              const isActive = activeButton === item.label
+              return (
+                <li key={item.label}>
+                  <button
+                    onClick={() =>
+                      setActiveButton(isActive ? null : item.label)
+                    }
+                    className={cn(
+                      'flex items-center gap-2.5 px-2 py-1.5 rounded-md text-sm transition-colors relative w-full text-left',
+                      isActive
+                        ? 'bg-blue-50 text-blue-600 font-medium'
+                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                    )}
+                  >
+                    {isActive && (
+                      <span className="absolute left-0 top-1 bottom-1 w-0.5 bg-blue-600 rounded-full" />
+                    )}
+                    <item.icon size={16} className="shrink-0" />
+                    <span className="flex-1 truncate">{item.label}</span>
+                    {item.badge && item.badge}
+                  </button>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+
+        <div>
+          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider px-2 mb-1">
+            Other
+          </p>
+          <ul className="space-y-0.5">
+            {navOtherButtons.map((item) => {
+              const isActive = activeButton === item.label
+              return (
+                <li key={item.label}>
+                  <button
+                    onClick={() =>
+                      setActiveButton(isActive ? null : item.label)
+                    }
+                    className={cn(
+                      'flex items-center gap-2.5 px-2 py-1.5 rounded-md text-sm transition-colors relative w-full text-left',
+                      isActive
+                        ? 'bg-blue-50 text-blue-600 font-medium'
+                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                    )}
+                  >
+                    {isActive && (
+                      <span className="absolute left-0 top-1 bottom-1 w-0.5 bg-blue-600 rounded-full" />
+                    )}
+                    <item.icon size={16} className="shrink-0" />
+                    <span className="truncate">{item.label}</span>
+                  </button>
                 </li>
               )
             })}
