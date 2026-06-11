@@ -15,10 +15,9 @@ export default function ProductDemo() {
 
   return (
     <div className="bg-white border border-border rounded-xl p-4 flex flex-col gap-3 h-full">
-      {/* Header */}
       <div className="flex items-start gap-3">
-        <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center shrink-0">
-          <ClipboardList size={16} className="text-muted-foreground" />
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: '#c2c2c2' }}>
+          <ClipboardList size={16} className="text-white" />
         </div>
         <div>
           <p className="text-sm font-semibold text-foreground">
@@ -30,11 +29,12 @@ export default function ProductDemo() {
         </div>
       </div>
 
-      {/* Progress bar */}
+      {/* Progress bar — green */}
       <div className="flex items-center gap-2">
         <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-blue-500 rounded-full"
+            className="h-full rounded-full"
+            style={{ backgroundColor: '#169c33' }}
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 1.2, ease: 'easeOut', delay: 0.5 }}
@@ -45,7 +45,6 @@ export default function ProductDemo() {
         </span>
       </div>
 
-      {/* Checklist — 2 column grid */}
       <div className="grid grid-cols-2 gap-x-4 gap-y-2">
         {checklistItems.map((item) => (
           <div key={item.label} className="flex items-center gap-1.5">

@@ -47,12 +47,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   return (
     <>
-      {/* Desktop sidebar */}
       <aside className="hidden lg:flex fixed left-0 top-0 h-full w-50 flex-col bg-white border-r border-border z-10">
         <SidebarContent pathname={pathname} />
       </aside>
 
-      {/* Mobile sidebar */}
       <AnimatePresence>
         {isOpen && (
           <motion.aside
@@ -82,14 +80,13 @@ function SidebarContent({ pathname }: { pathname: string }) {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Logo */}
       <div className="px-4 py-4 border-b border-border">
         <Image
           src="/bitscale-logo.png"
           alt="Bitscale"
           width={120}
           height={28}
-          className="invert"
+          className="brightness-0"
           priority
         />
       </div>
@@ -147,9 +144,7 @@ function SidebarContent({ pathname }: { pathname: string }) {
               return (
                 <li key={item.label}>
                   <button
-                    onClick={() =>
-                      setActiveButton(isActive ? null : item.label)
-                    }
+                    onClick={() => setActiveButton(isActive ? null : item.label)}
                     className={cn(
                       'flex items-center gap-2.5 px-2 py-1.5 rounded-md text-sm transition-colors relative w-full text-left',
                       isActive
@@ -180,9 +175,7 @@ function SidebarContent({ pathname }: { pathname: string }) {
               return (
                 <li key={item.label}>
                   <button
-                    onClick={() =>
-                      setActiveButton(isActive ? null : item.label)
-                    }
+                    onClick={() => setActiveButton(isActive ? null : item.label)}
                     className={cn(
                       'flex items-center gap-2.5 px-2 py-1.5 rounded-md text-sm transition-colors relative w-full text-left',
                       isActive
@@ -213,7 +206,7 @@ function SidebarContent({ pathname }: { pathname: string }) {
             alt="Bitscale"
             width={72}
             height={16}
-            className="invert opacity-70"
+            className="brightness-0"
           />
           <span className="flex-1" />
           {supportCollapsed ? (

@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, X } from 'lucide-react'
-import { cn } from '@/lib/utils'
 
 interface FilterAccordionProps {
   icon: React.ReactNode
@@ -38,7 +37,7 @@ export default function FilterAccordion({
         onClick={() => setOpen(!open)}
         className="flex items-center gap-2.5 w-full px-4 py-3 hover:bg-muted/40 transition-colors text-left"
       >
-        <span className="text-muted-foreground shrink-0">{icon}</span>
+        <span className="text-foreground shrink-0">{icon}</span>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-foreground">
@@ -75,7 +74,6 @@ export default function FilterAccordion({
             className="overflow-hidden"
           >
             <div className="px-4 pb-3 flex flex-col gap-2">
-              {/* Selected tags */}
               {values.length > 0 && (
                 <div className="flex flex-wrap gap-1.5">
                   {values.map((v) => (
@@ -99,7 +97,7 @@ export default function FilterAccordion({
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder={`Type and press Enter — e.g. ${placeholder}`}
+                placeholder={`Type and press Enter — ${placeholder}`}
                 className="w-full text-xs border border-border rounded-md px-3 py-1.5 outline-none focus:ring-1 focus:ring-blue-400 bg-muted/30 placeholder:text-muted-foreground/60"
               />
             </div>

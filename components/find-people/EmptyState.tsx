@@ -19,12 +19,16 @@ export default function EmptyState() {
         priority
         className="opacity-90"
       />
-      <div className="flex flex-col gap-1 max-w-65">
+      <div className="flex flex-col gap-0.5 max-w-75">
         <p className="text-sm text-muted-foreground leading-relaxed">
-          Start your Company search, preview, and import companies for enrichment
-          by applying any filter in the left panel.
+          Start your Company search, preview, and import companies
         </p>
-        <p className="text-sm text-muted-foreground font-semibold">OR</p>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          for enrichment by applying any filter in the left panel.
+        </p>
+        <p className="text-sm text-muted-foreground font-semibold my-0.5">
+          OR
+        </p>
         <p className="text-sm text-muted-foreground">
           Import companies from saved Search.
         </p>

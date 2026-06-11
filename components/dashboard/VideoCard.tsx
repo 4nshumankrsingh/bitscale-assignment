@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Play } from 'lucide-react'
 import { videos } from './data/grids'
@@ -9,16 +9,26 @@ export default function VideoCard() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [playingId, setPlayingId] = useState<string | null>(null)
 
+  // Auto-advance every 5 seconds unless a video is playing
+  useEffect(() => {
+    if (playingId) return
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % videos.length)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [playingId])
+
   const current = videos[activeIndex]
 
   return (
-    <div className="bg-white border border-border rounded-xl p-4 flex flex-col gap-3">
-      {/* Header */}
+    <div
+      className="border border-[#3e71b5]/25 rounded-xl p-4 flex flex-col gap-3"
+      style={{ backgroundColor: '#eef3fb' }}
+    >
       <div className="flex items-center justify-between">
-        <span className="text-sm font-semibold text-blue-500">
+        <span className="text-sm font-semibold" style={{ color: '#3e71b5' }}>
           Latest from Bitscale
         </span>
-        {/* Dot indicators */}
         <div className="flex items-center gap-1.5">
           {videos.map((_, i) => (
             <button
@@ -27,11 +37,13 @@ export default function VideoCard() {
                 setActiveIndex(i)
                 setPlayingId(null)
               }}
-              className={`rounded-full transition-all duration-300 ${
-                i === activeIndex
-                  ? 'w-4 h-2 bg-blue-500'
-                  : 'w-2 h-2 bg-muted-foreground/30 hover:bg-muted-foreground/50'
-              }`}
+              className="rounded-full transition-all duration-300"
+              style={{
+                width: i === activeIndex ? '16px' : '8px',
+                height: '8px',
+                backgroundColor:
+                  i === activeIndex ? '#3e71b5' : '#3e71b530',
+              }}
             />
           ))}
         </div>
@@ -48,7 +60,8 @@ export default function VideoCard() {
           className="flex gap-3"
         >
           {/* Thumbnail / iframe */}
-          <div className="relative w-30 h-18 rounded-lg overflow-hidden shrink-0 bg-muted group cursor-pointer"
+          <div
+            className="relative w-30 h-18 rounded-lg overflow-hidden shrink-0 bg-muted group cursor-pointer"
             onClick={() => setPlayingId(current.id)}
           >
             {playingId === current.id ? (
@@ -65,16 +78,20 @@ export default function VideoCard() {
                   alt={current.title}
                   className="w-full h-full object-cover"
                 />
-                {/* Play button overlay */}
                 <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
                   <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center shadow-md">
-                    <Play size={14} className="text-gray-800 ml-0.5" fill="currentColor" />
+                    <Play
+                      size={14}
+                      className="text-gray-800 ml-0.5"
+                      fill="currentColor"
+                    />
                   </div>
                 </div>
               </>
             )}
           </div>
 
+          {/* Text */}
           <div className="flex flex-col gap-1 min-w-0">
             <p className="text-sm font-semibold text-foreground leading-snug line-clamp-2">
               {current.title}

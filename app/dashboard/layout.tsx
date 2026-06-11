@@ -15,7 +15,6 @@ export default function DashboardLayout({
 
   return (
     <div className="flex h-screen bg-background overflow-hidden">
-      {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/40 z-20 lg:hidden"
@@ -23,13 +22,11 @@ export default function DashboardLayout({
         />
       )}
 
-      {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
       />
 
-      {/* Main content area */}
       <div className="flex flex-col flex-1 min-w-0 lg:ml-50">
         <Topbar
           onMenuClick={() => setSidebarOpen(true)}
@@ -40,7 +37,6 @@ export default function DashboardLayout({
         </main>
       </div>
 
-      {/* Find People Modal */}
       <FindPeopleModal
         open={findPeopleOpen}
         onOpenChange={setFindPeopleOpen}

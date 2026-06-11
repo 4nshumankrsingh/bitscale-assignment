@@ -1,9 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { MessageSquare, Building2, Users, Plus, Menu } from 'lucide-react'
+import { Coins, Building2, Users, Plus, Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 
 interface TopbarProps {
   onMenuClick: () => void
@@ -11,95 +10,108 @@ interface TopbarProps {
 }
 
 export default function Topbar({ onMenuClick, onFindPeopleClick }: TopbarProps) {
-  const used = 450000
-  const total = 5500000
-  const percentage = (used / total) * 100
-
   return (
-    <header className="h-14 border-b border-border bg-white flex items-center px-4 gap-3 shrink-0">
-      {/* Mobile hamburger */}
-      <button
-        onClick={onMenuClick}
-        className="lg:hidden p-1.5 rounded-md hover:bg-muted text-muted-foreground"
-      >
-        <Menu size={18} />
-      </button>
+    <header className="border-b border-border bg-white shrink-0">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border/60">
+        <button
+          onClick={onMenuClick}
+          className="lg:hidden p-1.5 rounded-md hover:bg-muted text-muted-foreground"
+        >
+          <Menu size={18} />
+        </button>
 
-      <div className="flex items-center gap-2 ml-auto">
-        <div className="hidden sm:flex items-center gap-1.5 text-sm text-muted-foreground">
-          <MessageSquare size={15} className="text-muted-foreground" />
-          <div className="flex items-center gap-1">
-            <span className="font-medium text-foreground">
-              {used.toLocaleString('en-US')}
-            </span>
-            <span>/</span>
-            <span>{total.toLocaleString('en-US')}</span>
+        <div className="hidden lg:block" />
+
+        <div className="flex items-center gap-2">
+          <div className="hidden sm:flex items-center rounded-md overflow-hidden border border-[#169c33]/30">
+            <div
+              className="flex items-center gap-1.5 px-3 py-1.5"
+              style={{ backgroundColor: '#e8f7ec' }}
+            >
+              <Coins size={14} style={{ color: '#169c33' }} />
+              <span
+                className="text-xs font-semibold"
+                style={{ color: '#169c33' }}
+              >
+                450,000/5,500,000
+              </span>
+            </div>
+            {/* Divider */}
+            <div className="w-px h-5 bg-[#169c33]/20" />
+            {/* Booster Plan pill — darker green */}
+            <div
+              className="flex items-center px-3 py-1.5"
+              style={{ backgroundColor: '#169c33' }}
+            >
+              <span className="text-xs font-semibold text-white">
+                Booster Plan
+              </span>
+            </div>
           </div>
-          {/* Animated progress bar */}
-          <div className="w-20 h-1.5 bg-muted rounded-full overflow-hidden ml-1">
-            <motion.div
-              className="h-full bg-blue-500 rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${percentage}%` }}
-              transition={{ duration: 1, ease: 'easeOut', delay: 0.3 }}
+
+          {/* User avatar */}
+          <div className="w-8 h-8 rounded-full overflow-hidden border border-border shrink-0">
+            <img
+              src="https://api.dicebear.com/7.x/avataaars/svg?seed=Tim"
+              alt="Tim"
+              className="w-full h-full"
             />
           </div>
         </div>
-
-        <Badge className="bg-emerald-500 hover:bg-emerald-500 text-white text-xs px-2 py-0.5 rounded-full hidden sm:flex">
-          Booster Plan
-        </Badge>
       </div>
 
-      <div className="flex items-center gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          className="hidden md:flex items-center gap-1.5 text-sm h-8"
-        >
-          <Building2 size={14} />
-          Find Companies
-        </Button>
+      <div className="flex items-center justify-between px-4 py-2.5 flex-wrap gap-2">
+        <div>
+          <h1 className="text-xl font-bold text-foreground leading-tight">
+            Welcome back, Tim!
+          </h1>
+          <p className="text-xs text-muted-foreground">
+            Here&apos;s your daily scoop on Bitscale!
+          </p>
+        </div>
 
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onFindPeopleClick}
-          className="hidden md:flex items-center gap-1.5 text-sm h-8"
-        >
-          <Users size={14} />
-          Find People
-        </Button>
-
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onFindPeopleClick}
-          className="flex md:hidden items-center gap-1.5 text-sm h-8"
-        >
-          <Users size={14} />
-        </Button>
-
-        <motion.div
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.97 }}
-        >
+        <div className="flex items-center gap-2">
           <Button
+            variant="outline"
             size="sm"
-            className="flex items-center gap-1.5 text-sm h-8 bg-foreground text-background hover:bg-foreground/90"
+            className="hidden md:flex items-center gap-1.5 text-sm h-8 border-[#169c33]/40 hover:bg-[#169c33]/5"
+            style={{ color: '#169c33' }}
           >
-            <Plus size={14} />
-            <span className="hidden sm:inline">New Grid</span>
+            <Building2 size={14} style={{ color: '#169c33' }} />
+            Find Companies
           </Button>
-        </motion.div>
 
-        {/* User avatar */}
-        <div className="w-8 h-8 rounded-full overflow-hidden border border-border shrink-0">
-          <img
-            src="https://api.dicebear.com/7.x/avataaars/svg?seed=Tim"
-            alt="Tim"
-            className="w-full h-full"
-          />
+          {/* Find People */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onFindPeopleClick}
+            className="hidden md:flex items-center gap-1.5 text-sm h-8 border-[#6d088c]/40 hover:bg-[#6d088c]/5"
+            style={{ color: '#6d088c' }}
+          >
+            <Users size={14} style={{ color: '#6d088c' }} />
+            Find People
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onFindPeopleClick}
+            className="flex md:hidden items-center gap-1.5 h-8"
+            style={{ color: '#6d088c', borderColor: '#6d088c40' }}
+          >
+            <Users size={14} />
+          </Button>
+
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+            <Button
+              size="sm"
+              className="flex items-center gap-1.5 text-sm h-8 bg-foreground text-background hover:bg-foreground/90"
+            >
+              <Plus size={14} />
+              <span className="hidden sm:inline">New Grid</span>
+            </Button>
+          </motion.div>
         </div>
       </div>
     </header>
