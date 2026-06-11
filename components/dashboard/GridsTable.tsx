@@ -7,7 +7,6 @@ import {
   Search,
   MoreHorizontal,
   ArrowUpDown,
-  Map,
   Users,
   Building2,
   FileText,
@@ -17,8 +16,8 @@ import {
 } from 'lucide-react'
 import { SiGoogle, SiGooglemaps, SiHubspot } from 'react-icons/si'
 import { FaLinkedin } from 'react-icons/fa'
-import { RiFileDownloadLine } from "react-icons/ri";
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { RiFileDownloadLine } from 'react-icons/ri'
+import { IoIosCompass } from 'react-icons/io'
 import { Input } from '@/components/ui/input'
 import { grids, GridRow } from './data/grids'
 import { cn } from '@/lib/utils'
@@ -26,13 +25,13 @@ import { cn } from '@/lib/utils'
 const iconMap: Record<GridRow['type'], React.ReactNode> = {
   workbook: <FileText size={14} className="text-red-400" />,
   linkedin: <FaLinkedin size={13} color="#0077b5" />,
-  nav: <Zap size={14} className="text-orange-400" />,
+  nav: <IoIosCompass size={14} color="#0077b5" />,
   company: <Building2 size={14} className="text-emerald-500" />,
-  csv: <RiFileDownloadLine size={14} className="text-purple-500" />,
-  people: <Users size={14} className="text-gray-400" />,
+  csv: <RiFileDownloadLine size={14} color="#964B00" />,
+  people: <Users size={14} color="#6d088c" />,
   maps: <SiGooglemaps size={14} className="text-red-400" />,
   search: <SiGoogle size={13} color="#4285F4" />,
-  factors: <Zap size={14} className="text-orange-400" />,
+  factors: <Zap size={14} className="text-red-400" />,
   hubspot: <SiHubspot size={13} color="#ff7a59" />,
 }
 
@@ -88,36 +87,27 @@ export default function GridsTable() {
 
   return (
     <div className="bg-white border border-border rounded-xl overflow-hidden">
-      {/* Tabs + search bar */}
       <div className="flex items-center justify-between px-4 pt-3 pb-0 gap-4 flex-wrap">
-        <Tabs value={tab} onValueChange={setTab}>
-          <TabsList className="bg-transparent p-0 gap-4 h-auto">
-            <TabsTrigger
-              value="my-grids"
+        <div className="flex items-center gap-4">
+          {[
+            { value: 'my-grids', label: 'My Grids' },
+            { value: 'starred', label: 'Starred' },
+          ].map((t) => (
+            <button
+              key={t.value}
+              onClick={() => setTab(t.value)}
               className={cn(
-                'bg-transparent px-0 pb-2 text-sm rounded-none border-b-2 data-[state=active]:shadow-none transition-colors',
-                tab === 'my-grids'
-                  ? 'border-blue-500 text-blue-600 font-semibold data-[state=active]:bg-transparent'
+                'pb-2 text-sm border-b-2 transition-colors outline-none',
+                tab === t.value
+                  ? 'border-blue-500 text-blue-600 font-semibold'
                   : 'border-transparent text-muted-foreground hover:text-foreground'
               )}
             >
-              My Grids
-            </TabsTrigger>
-            <TabsTrigger
-              value="starred"
-              className={cn(
-                'bg-transparent px-0 pb-2 text-sm rounded-none border-b-2 data-[state=active]:shadow-none transition-colors',
-                tab === 'starred'
-                  ? 'border-blue-500 text-blue-600 font-semibold data-[state=active]:bg-transparent'
-                  : 'border-transparent text-muted-foreground hover:text-foreground'
-              )}
-            >
-              Starred
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+              {t.label}
+            </button>
+          ))}
+        </div>
 
-        {/* Search + view toggle */}
         <div className="flex items-center gap-2 mb-2">
           <div className="relative">
             <Search
@@ -137,10 +127,8 @@ export default function GridsTable() {
         </div>
       </div>
 
-      {/* Divider */}
       <div className="h-px bg-border" />
 
-      {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
@@ -187,7 +175,6 @@ export default function GridsTable() {
                     transition={{ delay: i * 0.04 }}
                     className="border-b border-border hover:bg-slate-50 transition-colors group"
                   >
-                    {/* Name cell */}
                     <td className="py-2.5 px-4">
                       <div className="flex items-center gap-2 min-w-0">
                         {row.hasChildren ? (
@@ -199,7 +186,6 @@ export default function GridsTable() {
                           <span className="w-3.5 shrink-0" />
                         )}
 
-                        {/* Star toggle */}
                         <motion.button
                           onClick={() => toggleStar(row.id)}
                           whileTap={{ scale: 0.8 }}
@@ -216,7 +202,6 @@ export default function GridsTable() {
                           />
                         </motion.button>
 
-                        {/* Row icon */}
                         <span
                           className="w-5 h-5 rounded flex items-center justify-center shrink-0"
                           style={{ backgroundColor: row.iconBg }}
@@ -224,14 +209,12 @@ export default function GridsTable() {
                           {iconMap[row.type]}
                         </span>
 
-                        {/* Name */}
                         <span className="truncate text-sm text-foreground max-w-70">
                           {row.name}
                         </span>
                       </div>
                     </td>
 
-                    {/* Edited by */}
                     <td className="py-2.5 px-4 hidden md:table-cell">
                       <div className="flex items-center gap-2">
                         <img
@@ -246,12 +229,10 @@ export default function GridsTable() {
                       </div>
                     </td>
 
-                    {/* Last edited */}
                     <td className="py-2.5 px-4 text-sm text-muted-foreground hidden md:table-cell">
                       {row.lastEdited}
                     </td>
 
-                    {/* Actions */}
                     <td className="py-2.5 px-4">
                       <button className="p-1 rounded-md hover:bg-muted transition-colors text-muted-foreground">
                         <MoreHorizontal size={15} />

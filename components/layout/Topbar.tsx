@@ -1,7 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Coins, Building2, Users, Plus, Menu } from 'lucide-react'
+import { Coins, Building2, User, Plus, Menu } from 'lucide-react'
+import { PiCoinsDuotone } from "react-icons/pi";
 import { Button } from '@/components/ui/button'
 
 interface TopbarProps {
@@ -28,7 +29,7 @@ export default function Topbar({ onMenuClick, onFindPeopleClick }: TopbarProps) 
               className="flex items-center gap-1.5 px-3 py-1.5"
               style={{ backgroundColor: '#e8f7ec' }}
             >
-              <Coins size={14} style={{ color: '#169c33' }} />
+              <PiCoinsDuotone size={14} style={{ color: '#169c33' }} />
               <span
                 className="text-xs font-semibold"
                 style={{ color: '#169c33' }}
@@ -36,9 +37,7 @@ export default function Topbar({ onMenuClick, onFindPeopleClick }: TopbarProps) 
                 450,000/5,500,000
               </span>
             </div>
-            {/* Divider */}
             <div className="w-px h-5 bg-[#169c33]/20" />
-            {/* Booster Plan pill — darker green */}
             <div
               className="flex items-center px-3 py-1.5"
               style={{ backgroundColor: '#169c33' }}
@@ -75,7 +74,7 @@ export default function Topbar({ onMenuClick, onFindPeopleClick }: TopbarProps) 
             variant="outline"
             size="sm"
             className="hidden md:flex items-center gap-1.5 text-sm h-8 border-[#169c33]/40 hover:bg-[#169c33]/5"
-            style={{ color: '#169c33' }}
+            style={{ color: '#0e0f0d' }}
           >
             <Building2 size={14} style={{ color: '#169c33' }} />
             Find Companies
@@ -87,9 +86,9 @@ export default function Topbar({ onMenuClick, onFindPeopleClick }: TopbarProps) 
             size="sm"
             onClick={onFindPeopleClick}
             className="hidden md:flex items-center gap-1.5 text-sm h-8 border-[#6d088c]/40 hover:bg-[#6d088c]/5"
-            style={{ color: '#6d088c' }}
+            style={{ color: '#0e0f0d' }}
           >
-            <Users size={14} style={{ color: '#6d088c' }} />
+            <User size={14} style={{ color: '#6d088c' }} />
             Find People
           </Button>
 
@@ -100,7 +99,7 @@ export default function Topbar({ onMenuClick, onFindPeopleClick }: TopbarProps) 
             className="flex md:hidden items-center gap-1.5 h-8"
             style={{ color: '#6d088c', borderColor: '#6d088c40' }}
           >
-            <Users size={14} />
+            <User size={14} />
           </Button>
 
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>

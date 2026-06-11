@@ -7,16 +7,16 @@ import {
   Briefcase,
   Globe,
   MapPin,
-  Building2,
   Users,
-  BarChart2,
   BookMarked,
   Eye,
   ChevronDown,
   X,
   Search,
+  MapPinned,
   Lock,
 } from 'lucide-react'
+import { FaCodeBranch } from "react-icons/fa6";
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { Button } from '@/components/ui/button'
@@ -63,13 +63,13 @@ const filterConfig: {
     key: 'personLocation',
     label: 'Person Location',
     placeholder: 'E.g: London, Great New York City',
-    icon: <MapPin size={15} />,
+    icon: <MapPinned size={15} />,
   },
   {
     key: 'companyLocation',
     label: 'Company Location',
     placeholder: 'E.g: United States, UAE',
-    icon: <Building2 size={15} />,
+    icon: <MapPin size={15} />,
   },
   {
     key: 'companyHeadcount',
@@ -81,7 +81,7 @@ const filterConfig: {
     key: 'managementLevel',
     label: 'Management Level',
     placeholder: 'E.g: Owner, Founder',
-    icon: <BarChart2 size={15} />,
+    icon: <FaCodeBranch size={15} />,
   },
 ]
 
@@ -133,7 +133,6 @@ export default function FindPeopleModal({ open, onOpenChange }: FindPeopleModalP
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/20 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
 
-        {/* Modal content */}
         <DialogPrimitive.Content
           className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-275 bg-white rounded-xl shadow-2xl flex flex-col overflow-hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95"
           style={{ maxHeight: '88vh' }}
@@ -166,27 +165,10 @@ export default function FindPeopleModal({ open, onOpenChange }: FindPeopleModalP
               </AnimatePresence>
             </div>
             <div className="flex items-center gap-2">
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
-                <Button
-                  size="sm"
-                  onClick={handlePreview}
-                  disabled={previewLoading}
-                  className="flex items-center gap-1.5 text-sm h-8 bg-foreground text-background hover:bg-foreground/90 min-w-32.5 justify-center"
-                >
-                  {previewLoading ? (
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }}
-                      className="w-4 h-4 border-2 border-background/30 border-t-background rounded-full"
-                    />
-                  ) : (
-                    <>
-                      <Eye size={14} />
-                      Preview Result
-                    </>
-                  )}
-                </Button>
-              </motion.div>
+              <div className="flex items-center gap-1.5 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-medium px-2.5 py-1 rounded-full whitespace-nowrap">
+                <Search size={11} />
+                8,000/50,000
+              </div>
               <DialogPrimitive.Close className="p-1.5 rounded-md hover:bg-muted transition-colors text-muted-foreground">
                 <X size={16} />
               </DialogPrimitive.Close>
@@ -194,7 +176,6 @@ export default function FindPeopleModal({ open, onOpenChange }: FindPeopleModalP
           </div>
 
           <div className="flex flex-1 min-h-0 overflow-hidden">
-
             <div className="w-75 shrink-0 border-r border-border flex flex-col overflow-hidden">
               <div className="px-4 py-3 border-b border-border shrink-0">
                 <div className="flex items-center gap-2 mb-2">
@@ -218,7 +199,6 @@ export default function FindPeopleModal({ open, onOpenChange }: FindPeopleModalP
                 </div>
               </div>
 
-              {/* Accordion filters */}
               <div className="flex-1 overflow-y-auto">
                 {filterConfig.map((f) => (
                   <FilterAccordion
@@ -232,17 +212,39 @@ export default function FindPeopleModal({ open, onOpenChange }: FindPeopleModalP
                   />
                 ))}
               </div>
-
               <div className="px-4 py-3 border-t border-border shrink-0">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleSaveSearch}
-                  className="flex items-center gap-1.5 text-sm h-9 w-full bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-600"
-                >
-                  <BookMarked size={14} />
-                  Save Search
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleSaveSearch}
+                    className="flex items-center gap-1.5 text-sm h-9 flex-1 bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-600"
+                  >
+                    <BookMarked size={14} />
+                    Save Search
+                  </Button>
+                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} className="flex-1">
+                    <Button
+                      size="sm"
+                      onClick={handlePreview}
+                      disabled={previewLoading}
+                      className="flex items-center gap-1.5 text-sm h-9 w-full bg-foreground text-background hover:bg-foreground/90 justify-center"
+                    >
+                      {previewLoading ? (
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }}
+                          className="w-4 h-4 border-2 border-background/30 border-t-background rounded-full"
+                        />
+                      ) : (
+                        <>
+                          <Eye size={14} />
+                          Preview Result
+                        </>
+                      )}
+                    </Button>
+                  </motion.div>
+                </div>
               </div>
             </div>
 
@@ -253,15 +255,9 @@ export default function FindPeopleModal({ open, onOpenChange }: FindPeopleModalP
                 </p>
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1.5 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-medium px-2.5 py-1 rounded-full whitespace-nowrap">
-                    <Search size={11} />
-                    8,000/50,000
-                  </div>
-                  <div className="flex items-center gap-1.5 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-medium px-2.5 py-1 rounded-full whitespace-nowrap">
                     <Lock size={11} />
                     Unlock{' '}
-                    <span className="font-bold text-amber-800 mx-0.5">
-                      100,000
-                    </span>{' '}
+                    <span className="mx-0.5">100,000</span>{' '}
                     leads with Enterprise Plan*
                   </div>
                 </div>
@@ -279,7 +275,6 @@ export default function FindPeopleModal({ open, onOpenChange }: FindPeopleModalP
                   ))}
                 </div>
               </div>
-
               <div className="flex-1 overflow-y-auto">
                 <EmptyState />
               </div>
